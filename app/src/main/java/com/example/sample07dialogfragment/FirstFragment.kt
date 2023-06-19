@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.core.text.backgroundColor
 import androidx.core.text.buildSpannedString
 import androidx.core.text.color
@@ -72,9 +73,18 @@ class FirstFragment : Fragment() {
             }
 
             button2.setOnClickListener {
+                val text = textView.text.toString()
                 val customDialog = CustomDialog()
+                    .apply {
+                        arguments = bundleOf(CustomDialog.KEY_RETURN to text)
+                    }
                 customDialog.show(childFragmentManager, "cust1")
             }
+
+            childFragmentManager
+                .setFragmentResultListener(KEY_DIALOG, viewLifecycleOwner) {_, bundle ->
+                    textView.text = bundle.getString(BUNDLE_KEY)
+                }
         }
     }
 
@@ -82,5 +92,10 @@ class FirstFragment : Fragment() {
         super.onDestroyView()
 
         _binding = null
+    }
+
+    companion object {
+        const val KEY_DIALOG = "key_dialog"
+        const val BUNDLE_KEY = "bundle_key"
     }
 }
