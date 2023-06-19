@@ -51,9 +51,5 @@ class CustomDialog : DialogFragment() {
 
     companion object {
         const val KEY_RETURN = "key_return"
-        fun getInstance(text: String): Fragment {
-            return CustomDialog()
-                .apply { arguments = bundleOf(KEY_RETURN to text) }
-        }
     }
 }
